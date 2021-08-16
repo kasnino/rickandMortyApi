@@ -1,32 +1,38 @@
 <template>
+  <v-app>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <component :is="this.$route.meta.layout || 'div'">
+      <router-view />
+    </component>
   </div>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
 
-#nav {
-  padding: 30px;
+export default {
+  name: 'App',
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  data: () => ({
+    //
+  }),
+};
+</script>
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+<style lang="scss" >
+    @import "sass/globals";
+  
+
+      @font-face {
+        font-family: MonserrateMedium;
+        src: url("./assets/fonts/MontserratAlternates-Medium.ttf");
+        
+      }
+      @font-face {
+        font-family:Montserrate; 
+        src: url("./assets/fonts/Montserrat-Light.otf");
+        
+      }
+
+
 </style>

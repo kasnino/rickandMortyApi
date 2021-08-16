@@ -1,0 +1,18 @@
+/* CONTIENE:
+Imports
+Estilo de html, body y svg
+Tooltip
+Interacciones de hover -> .hvr .hvr-scale .hvr-float
+Estilo generals para tablas
+Estilos personalizados para tablas
+*/
+@import 'helpers/variables';
+@import 'animate';
+@import 'animations';
+@import 'transitions';
+@import 'small.scss';
+@import 'medium.scss';
+@import 'textos.scss';
+@import 'svg.scss';
+@import "hover.scss";
+
