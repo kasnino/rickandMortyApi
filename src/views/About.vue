@@ -156,7 +156,7 @@ export default {
     methods: {
         TodosDatos() {
             axios
-                .get("https://rickandmortyapi.com/api/character/?page=" + this.page)
+                .get("https://rickandmortyapi.com/api/character/1,100?page=" + this.page)
                 .then((result) => {
                     console.log(result.data);
                     this.RespaldoAllData = result.data;
