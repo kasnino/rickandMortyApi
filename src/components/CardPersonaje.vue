@@ -144,23 +144,37 @@
           data() {
                 return {
                        activarmodal:true,
-                       emitValor:4
+                       emitValor:4,
+                       personagesMezcladas:[]
                 }
             },
+            created(){
+        
+            
+            },
             methods:{
+
+  
                 personajeModal(caricatura){
                       console.log("objeto::",caricatura);
                       return this.$emit("caricatura", caricatura);
                 },
                 ShowModal(){
                     return this.$emit("showmodal", this.activarmodal);
-                }
+                },
+                   
+               
+            },
+            computed:{
+            
             }
         
     }
 </script>
 
 <style lang="scss" scoped>
+
+
 
 .favorite__caricatura {
   cursor: pointer;

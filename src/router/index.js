@@ -15,41 +15,13 @@ const routes = [
     meta: { layout: LayoutA }
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/portada',
+    name: 'Portada',
     meta: { layout: LayoutB },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/About.vue')
+      return import('../views/Portada.vue')
     }
-      
-    },
-    {
-      path: '/search',
-      name: 'search',
-      meta: { layout: LayoutB },
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: function () {
-        return import(/* webpackChunkName: "about" */ '../views/Search.vue')
-        
-      }
   },
-  {
-    path: '/female',
-    name: 'female',
-    meta: { layout: LayoutB },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/Female.vue')
-      
-    }
-},
 
 ]
 

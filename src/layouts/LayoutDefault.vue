@@ -44,30 +44,53 @@
                 class="  justify-center   align-center   pa-1 ma-1 "
                 style=" "
               >
-                <v-col cols="12" sm="5" class="animated fadeIn dura-1">
+                <v-col
+                  cols="12"
+                  sm="5"
+                  class=" animated fadeIn dura-1"
+                  style="position:relative;"
+                >
                   <v-text-field
                     outlined
                     color="#FFFFFF"
                     solo
-                    class=""
+                    class="ma-0 pa-0"
                     height="60"
                     prepend-inner-icon="mdi-magnify"
                     label="Buscar personaje..."
                     v-model="searchQuery"
-                   
                   ></v-text-field>
+                  <v-row
+                    v-if="searchQuery"
+                    class="  model--search   pa-0 ma-0 "
+                    style=" "
+                  >
+                    <v-col cols="12" sm="5" class="">
+                      <table class="table pa-0 ma-0">
+                        <tbody>
+                          <tr v-for="(item, index) in resultQuery" :key="index">
+                            <td>
+                              <a v-bind:href="item.uri" target="_blank">{{
+                                item.name
+                              }}</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </v-col>
+                  </v-row>
                 </v-col>
-                 
               </v-row>
             </v-col>
           </v-row>
         </v-img>
       </v-img>
     </header>
-    <slot class="">
-    
-    
-       </slot>
+
+    <slot class=""> </slot>
+
+
+      
     <v-row class="  justify-center    pa-0 ma-0 " style=" height:auto;  ">
       <v-col
         cols="12"
@@ -121,20 +144,26 @@ export default {
       absolute: true,
       overlay: true,
       opacity: 0.6,
-      searchQuery: 'gjh',
-      listPersonajes:[]
+      searchQuery: "",
+      listPersonajes: [],
+      searchQuery: null,
     };
   },
-    mounted() {
-            axios
-                .get("https://rickandmortyapi.com/api/character")
-                .then((result) => {
-                    console.log(result.data);
-                    this.listPersonajes = result.data;
-                  
-                });
-        },
+  mounted() {
+    this.TodosDatos();
+  },
   methods: {
+    TodosDatos() {
+      axios
+        .get("https://rickandmortyapi.com/api/character")
+        .then((result) => {
+          console.log("layout: ", result.data);
+          this.listPersonajes = result.data;
+          // store to local
+        })
+        .catch((error) => console.log(error))
+        .finally(() => (this.loading = false));
+    },
     BusquedaPersonajes() {
       return this.$router.push({ path: "/search" });
     },
@@ -143,25 +172,34 @@ export default {
       return this.$router.push({ path: "/" });
     },
   },
-    computed: {
+  computed: {
     resultQuery() {
       if (this.searchQuery) {
-        return this.listPersonajes.results.filter(item => {
+        console.log("lkjlkfsjf");
+        return this.listPersonajes.results.filter((item) => {
           return this.searchQuery
             .toLowerCase()
             .split(" ")
-            .every(v => item.name.toLowerCase().includes(v));
+            .every((v) => item.name.toLowerCase().includes(v));
         });
-        console.log("entro");
       } else {
-        return this.listPersonajes.results
+        return this.listPersonajes.results;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
+.model--search {
+  background: #0d3454;
+  color: #f5f5f5c4;
+  z-index: 500;
+  margin-top: -150px;
+  position: absolute;
+  top: 77px;
+  width: 95%;
+}
 .headerApp {
 }
 

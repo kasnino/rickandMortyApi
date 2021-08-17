@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     NextDashboard() {
-      return this.$router.push({ path: "/about" });
+      return this.$router.push({ path: "/portada" });
     },
   },
 };
