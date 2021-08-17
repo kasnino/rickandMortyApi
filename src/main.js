@@ -7,7 +7,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 library.add(fas);
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import vuetify from './plugins/vuetify'
-
+import modalApp from '@/components/modal'
+Vue.component("modal-app", modalApp)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false

@@ -15,13 +15,14 @@
                 class="pa-0   ma-0"
               >
                 <v-tabs-slider color="#34c759"></v-tabs-slider>
-
+              
                 <v-tab
                   v-for="(item, index) in items"
                   :key="item.id"
                   style="color:#666666;"
                   class="tab__categopry"
                   :class="`animated fadeInUp dura-${index + 2 * 1} `"
+                  @click="ShowAllDataFilter(index)"
                 >
                   {{ item }}
                 </v-tab>
@@ -60,110 +61,32 @@
                     </div>
                   </v-col>
                 </v-row>
-
+                <!-- inicio cards relleno-->
+                <div v-if="listPersonajes">
+                  <CardPersonaje
+                    @showmodal="EmitModal"
+                    @caricatura="reciboPersonaje"
+                    :personaje="listPersonajes.results"
+                  ></CardPersonaje>
+                </div>
                 <!-- inicio cards relleno -->
 
-                <v-row class="  mb-15">
+                <v-row class=" pa-1 ma-1">
                   <v-col
+                    v-if="listPersonajes"
                     cols="12"
                     md="12"
-                    class="  align-center pa-0 ma-0 d-flex "
+                    class="pa-1 ma-1 ml-2 justify-center  align-center d-flex"
+                    style="height:150px;"
                   >
-                    <v-row class=" pa-0 ma-0 ">
-                      <v-col
-                        cols="12"
-                        xs="12"
-                        sm="6"
-                        md="4"
-                        lg="4"
-                        xl="3"
-                        v-for="(item, index) in 18"
-                        :key="item"
-                        class="pa-0 ma-0   mt-8 align-center d-flex"
-                      >
-                        <template>
-                          <v-card
-                            class="mx-auto card__show--caricatura elevation-4"
-                            style="border-radius:16px;"
-                            max-width="326"
-                            height="140"
-                            outlined
-                            :class="`animated fadeIn dura-${index} `"
-                          >
-                            <v-row class=" pa-0 ma-0">
-                              <v-col cols="5" md="5" class="  pa-0 ma-0 ">
-                                <v-img
-                                  src="@/assets/character.png"
-                                  class="Avatar"
-                                  style="height:139px; width:140px;"
-                                >
-                                  <div class="Avatar__favorito--btn ">
-                                    <v-img
-                                      src="@/assets/favorite.svg"
-                                      width="30px"
-                                      class="favorite__caricatura ma-0  ml-3"
-                                      contain
-                                    >
-                                    </v-img>
-                                  </div>
-                                </v-img>
-                              </v-col>
-
-                              <v-col cols="7" md="7" class="  pa-0 ma-0">
-                                <v-list-item three-line class="pa-0 ma-0 ml-2">
-                                  <v-list-item-content class="pa-0 ma-0 mt-3">
-                                      <div style="line-height:17px; " class="ma-1">
-                                    <div class="texto__card--descriccion ml-4">
-                                    
-                                      <v-badge
-                                        bordered
-                                        color="success"
-                                        dot
-                                        left
-                                        offset-x="-5"
-                                        offset-y="10"
-                                      >
-                                        Alive - Human
-                                      </v-badge>
-                                    </div>
-                                    <v-list-item-title
-                                      class="texto__card--name pa-0 ma-0 "
-                                    >
-                                      Morty Smith
-                                    </v-list-item-title>
-                                    </div>
-
-                                      <div style="line-height:12px; " class="ma-1">
-                                            <v-list-item-subtitle class="texto__card--subdescription"
-                                              >Last known location:
-                                              </v-list-item-subtitle
-                                            >
-                                                <v-list-item-title
-                                              class="texto__card--sublocation pa-0 ma-0 "
-                                            >
-                                             Story Train
-                                            </v-list-item-title>
-                                      </div>
-
-                                       <div style="line-height:12px; " class="ma-1">
-                                            <v-list-item-subtitle class="texto__card--subdescription"
-                                              >First seen in:
-                                              </v-list-item-subtitle
-                                            >
-                                                <v-list-item-title
-                                              class="texto__card--sublocation pa-0 ma-0 "
-                                            >
-                                            Never Ricking Morty
-                                            </v-list-item-title>
-                                      </div>
-                                  </v-list-item-content>
-                                </v-list-item>
-                              </v-col>
-                            </v-row>
-                          </v-card>
-                        </template>
-                      </v-col>
-                    </v-row>
+                    <div class="text-center">
+                      <v-pagination
+                        v-model="page"
+                        :length="pagination.total"
+                        :total-visible="7"
+                        @input="PaginationFiltre"
+                      ></v-pagination>
+                    </div>
                   </v-col>
                 </v-row>
               </v-col>
@@ -172,95 +95,187 @@
         </v-tabs-items>
       </v-col>
     </v-row>
+    <div v-if="emitmensaje">
+      <modal-app
+        :perfilPersonaje="perfilCaricatura"
+        v-model="model"
+      ></modal-app>
+    </div>
   </div>
 </template>
 
 <script>
+import personajes from "@/logic/personajes";
+import CardPersonaje from "@/components/CardPersonaje";
+import axios from "axios";
 export default {
-  data() {
-    return {
-      transition: false,
-      tab: null,
-      items: ["All", "Unknown", "Female", "Male", "Genderless"],
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    };
-  },
-};
-</script>
+    components: {
+        CardPersonaje
+    },
+    data() {
+        return {
+            rutas: ["about", "Unknown", "Female", "Male", "Genderless"],
+            emitmensaje: false,
+            transition: false,
+            tab: null,
+            page: 1,
+            model: false,
+            event: false,
+            perfilCaricatura: {},
+            genero: '',
+            listPersonajes: [],
+            activeFilters: [],
+            RespaldoAllData: [],
+            pagination: {
+                pages: 1,
+                total: 0,
+            },
+            url: "",
+            githubPage: 1,
+            contador: 0,
+            items: ["All", "Unknown", "Female", "Male", "Genderless"],
+            categoryFilters: ['Female'],
+            categoryFiltersMale: ['Male'],
+            statusFilter: ['unknown'],
+            filteredArticles: {},
+            filtro: ['', 'status', 'gender', 'gender', 'gender'],
+            categoryFiltro: ['Genderless']
+        };
+    },
+
+    mounted() {
+
+        this.TodosDatos();
+
+    },
+
+    created() {
+
+    },
+
+    methods: {
+        TodosDatos() {
+            axios
+                .get("https://rickandmortyapi.com/api/character/?page=" + this.page)
+                .then((result) => {
+                    console.log(result.data);
+                    this.RespaldoAllData = result.data;
+                    this.listPersonajes = result.data;
+                    this.pagination.total = result.data.info.pages;
+                });
+        },
+        filterGenero(personajes) {
+
+            this.filteredArticles = this.categoryFilters.reduce((acc, item) => {
+                acc[item] = personajes.filter(a => a.gender === item);
+                console.log("ctaegirty:", acc[item])
+                return this.listPersonajes.results = acc[item];
+
+            }, {});
+
+        },
+        filterGeneroMale(personajes) {
+
+            this.filteredArticles = this.categoryFiltersMale.reduce((acc, item) => {
+                acc[item] = personajes.filter(a => a.gender === item);
+                console.log("ctaegirty:", acc[item])
+                return this.listPersonajes.results = acc[item];
+
+            }, {});
+
+        },
+        filterGenderles(personajes) {
+
+            this.filteredArticles = this.categoryFiltro.reduce((acc, item) => {
+                acc[item] = personajes.filter(a => a.gender === item);
+                console.log("ctaegirty:", acc[item])
+                return this.listPersonajes.results = acc[item];
+
+            }, {});
+
+        },
+        filterStatus(personajes) {
+            this.filteredArticles = this.statusFilter.reduce((acc, item) => {
+                acc[item] = personajes.filter(a => a.status === item);
+                console.log("ctaegirty:", acc[item])
+
+                return this.listPersonajes.results = acc[item];
+
+            }, {});
+
+        },
+        ShowAllDataFilter(ruta) {
+            if (ruta == 0) {
+                return this.TodosDatos();
+            }
+            if (ruta == 1) {
+                return console.log(ruta), this.filterStatus(this.listPersonajes.results);
+            }
+            if (ruta == 2) {
+                return console.log(ruta), this.filterGenero(this.listPersonajes.results);
+            }
+            if (ruta == 3) {
+                return console.log(ruta), this.filterGeneroMale(this.listPersonajes.results);
+            }
+            if (ruta == 4) {
+                return console.log(ruta), this.filterGenderles(this.listPersonajes.results);
+            }
+
+            // console.log("ctaegirty:",this.listPersonajes.results[0].gender );
+
+        },
+        reciboPersonaje(dataPersonaje) {
+            return (this.emitmensaje = true), (this.perfilCaricatura = dataPersonaje);
+        },
+        EmitModal(info) {
+            return (this.model = info);
+        },
+        scrollBehavior() {
+            return {
+                x: 0,
+                y: 0
+            }, document.getElementById('app').scrollIntoView();
+        },
+
+        PaginationFiltre() {
+            return axios
+                .get("https://rickandmortyapi.com/api/character/?page=" + this.page)
+                .then((result) => {
+                    this.listPersonajes = result.data;
+                    if (this.tab == 0) {
+                        this.listPersonajes = result.data;
+                    }
+                    if (this.tab == 1) {
+                        this.filterStatus(this.listPersonajes.results);
+                    }
+                    if (this.tab == 2) {
+                        this.filterGenero(this.listPersonajes.results);
+                    }
+                    if (this.tab == 3) {
+                        this.filterGeneroMale(this.listPersonajes.results);
+                    }
+                    if (this.tab == 4) {
+                        this.filterGenderles(this.listPersonajes.results);
+                    }
+                }),
+                this.scrollBehavior();
+        },
+        ShowModalInfo() {
+            if (!this.model) {
+                return (this.model = true);
+            } else {
+                return (this.model = false);
+            }
+        }
+    },
+    computed: {
+        categoryFilterSet() {
+            console.log();
+            return new Set(this.categoryFilters)
+        }
+    },
+}; </script>
 <style lang="scss" scoped>
-
-.texto__card--sublocation{
-  /* Story Train */
-
-
-font-family: Montserrate;
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-line-height: 15px;
-/* identical to box height */
-text-align: left;
-
-color: #000000;
-
-
-}
-.texto__card--subdescription{
-  /* Last known location: */
-font-family: Montserrate;
-font-style: normal;
-font-weight: normal;
-font-size: 10px;
-line-height: 12px;
-
-color: #828282;
-
-
-}
-.texto__card--descriccion {
-  /* Alive - Human */
-  font-family: Montserrate;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 12px;
-
-  color: #4f4f4f;
-}
-
-.texto__card--name {
-  /* Morty Smith */
-
-  font-family: Montserrate;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 17px;
-  line-height: 20px;
-  /* identical to box height */
-  text-align: left;
-
-  color: #000000;
-}
-
-.Avatar__favorito--btn {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-}
-.card__show--caricatura {
-  border-radius: 10px !important;
-  border: 1px solid #e0e0e0;
-  cursor: pointer;
-}
-
-.card__show--caricatura:hover {
-  transform: scale(1.02);
-  background: #20ef0954;
-  box-shadow: 0px 3px 3px 1px rgba(93, 203, 60, 0.699),
-    0px -3px 5px 0px rgba(93, 203, 60, 0.685),
-    0px 3px 11px 1px rgba(93, 203, 60, 0.61) !important;
-}
 .tab__categopry {
   font-family: MonserrateMedium;
   text-transform: capitalize;
@@ -278,17 +293,12 @@ color: #828282;
   text-decoration-line: underline;
   color: #071e31;
   font-weight: bold;
-
   transform: all 1s;
   cursor: pointer;
 }
 
-.favorite__caricatura {
-  cursor: pointer;
-}
 .texto__titulo {
   /* Mostrar favoritos: */
-
   font-family: Montserrate;
   font-style: normal;
   font-weight: normal;
