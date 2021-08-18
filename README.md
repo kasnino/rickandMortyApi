@@ -18,13 +18,13 @@ Mira **Deployment** para conocer como desplegar el proyecto.
 ### Pre-requisitos 📋
 
 
-Vue JS
-Vuetify
-Webpack
-Axios
-Material Design Icons
+
 ```
-Da un ejemplo
+Vue JS -
+Vuetify -
+Webpack -
+Axios -
+Material Design Icons
 ```
 
 ### Sobre la prueba 🔧 ⚙️
