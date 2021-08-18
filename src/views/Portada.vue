@@ -3,23 +3,22 @@
     <v-row class="  justify-center   align-center dashboard  " style=" ">
       <v-col cols="12" sm="12" class="pa-0 ma-0">
         <v-card color="#f2f2f2" class="pa-3 ma-3">
-          <v-row class="  justify-center   align-center dashboard  " style=" ">
+          <v-row class="  justify-center   align-center nav__sub-header  " style=" ">
             <v-col cols="12" sm="10" class="pa-0 ma-0">
               <v-tabs
-                v-model="tab"
-                fixed-tabs
-                background-color="#f2f2f2"
-                style="color:#000000;"
-                dark
-                height="70"
-                class="pa-0   ma-0"
+              light
+                    v-model="tab"
+                    fixed-tabs
+                    style=""
+                    height="70"
+                    class="pa-0 nav__header  ma-0"
               >
                 <v-tabs-slider color="#34c759"></v-tabs-slider>
-              
                 <v-tab
+                
                   v-for="(item, index) in items"
                   :key="item.id"
-                  style="color:#666666;"
+                  style="color:var(--texto__navegacion); background:var(--barra__navegacion);"
                   class="tab__categopry"
                   :class="`animated fadeInUp dura-${index + 2 * 1} `"
                   @click="ShowAllDataFilter(index)"
@@ -30,7 +29,7 @@
             </v-col>
           </v-row>
         </v-card>
-        <v-tabs-items v-model="tab">
+        <v-tabs-items v-model="tab" class="windows__relleno">
           <v-tab-item
             v-for="item in items"
             :key="item"
@@ -45,9 +44,9 @@
                   <v-col
                     cols="10"
                     md="2"
-                    class="pa-1 ma-1 ml-2  align-center d-flex"
+                    class="pa-1 ma-1 ml-8  align-center d-flex"
                   >
-                    <div class="  texto__titulo ">
+                    <div class=" favorite__text  ">
                       Mostrar favoritos:
                     </div>
                     <div class="texto__titulo ">
@@ -184,6 +183,7 @@ export default {
                    // load from local
                   this.listPersonajes = local_data
                   this.pagination.total = pages_data 
+                   this.randomNumber();
             }else { 
             axios
                 .get("https://rickandmortyapi.com/api/character/?page=" + this.page)
@@ -315,6 +315,44 @@ export default {
     },
 }; </script>
 <style lang="scss" scoped>
+
+ .favorite__text{
+      font-family:Montserrate; 
+  text-transform: capitalize;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+
+  color: var(--texto__titulo-relleno);
+ }
+.nav__sub-header{
+background: var(--fondo__sub-barra--nav);
+}
+.dashboard{
+  background:var(--fondo__color);
+}
+
+.windows__relleno{
+    background:var(--fondo__color) !important;;
+}
+
+.theme--light.v-tabs > .v-tabs-bar {
+background: yellow;
+}
+.nav__header{
+    background-color:var(--barra__navegacion) !important;
+    background: var(--barra__navegacion);
+}
+
+#app > div > div:nth-child(2) > div > div > div.pa-3.ma-3.v-card.v-sheet.theme--light > div > div > div > div{
+background-color: yellow !important;
+}
+
+.v-tabs .v-tabs-bar {
+  
+}
 .tab__categopry {
   font-family: MonserrateMedium;
   text-transform: capitalize;

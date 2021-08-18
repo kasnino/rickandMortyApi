@@ -1,10 +1,12 @@
 <template>
   <v-app>
+     <main id="thema" class="themalight">
   <div id="app">
     <component :is="this.$route.meta.layout || 'div'">
       <router-view />
     </component>
   </div>
+     </main>
   </v-app>
 </template>
 

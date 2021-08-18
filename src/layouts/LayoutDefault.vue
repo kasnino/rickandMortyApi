@@ -2,13 +2,13 @@
   <div>
     <header class="headerApp" style="">
       <v-img
-        src="@/assets/rick-y-morty-fanart-2020_3840x2160_xtrafondos 1.png"
+        :src="require(`@/assets/rick-y-morty-fanart-2020_3840x2160_xtrafondos 1.png`)"
         height=""
         width=""
         class="elevation-15 "
       >
         <v-img
-          src="@/assets/portal-morty-smith-rick (1).png"
+          :src="require(`@/assets/${imgDark[temaImg]}.png`)"
           width=""
           class="ma-0 elevation-10 "
           contain
@@ -70,26 +70,40 @@
                         <tbody>
                           <tr v-for="(item, index) in resultQuery" :key="index">
                             <td>
-                              <a v-bind:href="item.uri" target="_blank">{{
-                                item.name
-                              }}</a>
+                              <a v-bind:href="item.uri" target="_blank">
+                                {{item.name}}</a>
                             </td>
                           </tr>
                         </tbody>
                       </table>
                     </v-col>
                   </v-row>
+                    
                 </v-col>
               </v-row>
+            <v-btn
+                          fab
+                          dark
+                          top
+                          style="position:absolute; right:40px; top:12px; border:2px solid #48aa34"
+                          bottom
+                          class="btn__themecolor"
+                          color="#071e31"
+                        @click="ChangeColor()"
+                        >
+                    <v-icon v-if="changescolor" size="50" color="yellow">mdi-weather-sunny</v-icon>
+                   <v-icon v-else size="50" color="yellow">mdi-moon-waxing-crescent</v-icon>
+                    
+                    </v-btn>
             </v-col>
+              
           </v-row>
+        
         </v-img>
       </v-img>
     </header>
 
     <slot class=""> </slot>
-
-
       
     <v-row class="  justify-center    pa-0 ma-0 " style=" height:auto;  ">
       <v-col
@@ -141,18 +155,37 @@ export default {
   name: "LayoutA",
   data() {
     return {
+      imgDark:['portal-morty-smith-rick (1)', 'rick-y-morty-fanart-2020_3840x2160_xtrafondos 1'],
+      temaImg:0,
       absolute: true,
       overlay: true,
       opacity: 0.6,
       searchQuery: "",
       listPersonajes: [],
       searchQuery: null,
+       changescolor:false
     };
   },
   mounted() {
     this.TodosDatos();
   },
   methods: {
+             ChangeColor(){
+            const thema = document.getElementById("thema");
+            if(!this.changescolor){
+                 thema.classList.remove("themalight")
+                 thema.classList.add("themadark")
+                 this.temaImg = 1
+                 this.changescolor = true
+            }else{
+                thema.classList.add("themalight")
+                thema.classList.remove("themadark")
+                  this.temaImg = 0
+                this.changescolor = false
+    
+               
+            }
+    },
     TodosDatos() {
       axios
         .get("https://rickandmortyapi.com/api/character")
@@ -191,6 +224,12 @@ export default {
 </script>
 
 <style lang="scss">
+
+.btn__themecolor{
+  box-shadow: 0px 3px 3px 1px rgba(93, 203, 60, 0.699),
+    0px -3px 5px 0px rgba(93, 203, 60, 0.685),
+    0px 1px 11px 1px rgba(93, 203, 60, 0.61) !important;
+}
 .model--search {
   background: #0d3454;
   color: #f5f5f5c4;

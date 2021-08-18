@@ -1,0 +1,38 @@
+//Estos Temas modifican el background de toda la pagina
+//Son manejados directamente ṕor la etiqueta main ubicada en el archivo
+// App.vue 
+
+.themalight { 
+    --fondo__color:#f2f2f2;
+    --card__fondo:#ffffff;
+    --fondo--main:#ecf0f9;
+    --texto__navegacion:#666666;
+    --barra__navegacion:#f2f2f2;
+    --texto__subtitle--card:#000000;
+    --texto--titulo-topcard:#666666;
+    --fondo__sub-barra--nav:#f2f2f2;
+    --texto__titulo-relleno:#000000;
+    --header--light-color:#eff0eb;
+    --color-icon-footer:rgba(0, 212, 255, 0.8);
+    --modal-container:#000000;
+    --texto__top-card:#828282;
+} 
+
+//new color texto AAA Contrast Ratio #3f3d56
+
+.themadark {
+  --fondo__color:#04121d;
+  --card__fondo:#071E31;
+  --texto__top-card:rgb(93, 203, 60);
+  --fondo__sub-barra--nav:black;
+  --barra__navegacion:#071E31;
+  --texto__navegacion:#ffffff;
+  --texto__titulo-relleno:#ffffff;
+  --texto--titulo-topcard:#3cbcfb;
+  --texto__subtitle--card:#ffffff;
+  --texto-degradado:linear-gradient(-40deg, #fffFFF81, #66666681, #fff, #fffFFF81);
+  --degradado-header:linear-gradient(90deg,rgba(255, 11, 86, 1) 26%,rgba(0, 212, 255, 1) 100%); 
+  --fondo--main:#181919;
+  --color-icon-sppnier:#666666;
+  --letra-textos: #666666; 
+} 
