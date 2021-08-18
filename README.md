@@ -3,7 +3,9 @@
 Proyecto para mostrar infomación consumida por una API usando Axios.
 
 ## Comenzando 🚀
-
+```
+Vue 2.6.11
+```
 ```
 Node 12.22.1
 ```
