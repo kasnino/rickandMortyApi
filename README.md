@@ -62,17 +62,6 @@ _Menciona las herramientas que utilizaste para crear tu proyecto_
 * [VueJs](https://vuejs.org/) - El framework web usado Frontend JS
 * [Vuetify](https://vuetifyjs.com/en/) - El framework web usado Style
 
-## Contribuyendo 🖇️
-
-
-
-## Wiki 📖
-
-Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tu/proyecto/wiki)
-
-## Versionado 📌
-
-Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
 
 ## Autores ✒️
 
