@@ -1,4 +1,4 @@
-# RICKendMORTY consumo de API ::  VUEjs & Vuetify 
+# RICK and MORTY consumo de API ::  VUEjs & Vuetify 
 
 Proyecto para mostrar infomación consumida por una API usando Axios.
 
